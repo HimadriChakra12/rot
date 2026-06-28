@@ -15,8 +15,8 @@ config.h:
 .c.o:
 	$(CC) $(STCFLAGS) -c $<
 
-st.o: config.h st.h win.h
-x.o: arg.h config.h st.h win.h hb.h
+st.o: st.h win.h
+x.o: arg.h st.h win.h hb.h
 hb.o: st.h
 
 $(OBJ): config.h config.mk
