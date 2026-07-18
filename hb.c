@@ -85,15 +85,15 @@ hbtransform(XftGlyphFontSpec *specs, const Glyph *glyphs, size_t len, int x, int
 	hbtransformsegment(specs[start].font, glyphs, codepoints, gstart, length);
 
 	/* Apply the transformation to glyph specs. */
-	for (int i = 0, specidx = 0; i < len; i++) {
-		if (glyphs[i].mode & ATTR_WDUMMY)
-			continue;
+    for (int i = 0, specidx = 0; i < len; i++) {
+        if (glyphs[i].mode & ATTR_WDUMMY)
+            continue;
 
-		if (codepoints[i] != specs[specidx].glyph)
-			((Glyph *)glyphs)[i].mode |= ATTR_LIGA;
+        if (codepoints[i] != specs[specidx].glyph)
+            ((Glyph *)glyphs)[i].mode |= ATTR_LIGA;
 
-		specs[specidx++].glyph = codepoints[i];
-	}
+        specs[specidx++].glyph = codepoints[i];
+    }
 
 	free(codepoints);
 }
@@ -122,14 +122,13 @@ hbtransformsegment(XftFont *xfont, const Glyph *string, hb_codepoint_t *codepoin
 	/* Shape the segment. */
 	hb_shape(font, buffer, NULL, 0);
 
-	/* Get new glyph info. */
-	hb_glyph_info_t *info = hb_buffer_get_glyph_infos(buffer, NULL);
-
 	/* Write new codepoints. */
-	for (int i = 0; i < length; i++) {
-		hb_codepoint_t gid = info[i].codepoint;
-		codepoints[start+i] = gid;
-	}
+    uint32_t glyph_count;
+    hb_glyph_info_t *info = hb_buffer_get_glyph_infos(buffer, &glyph_count);
+
+    for (int i = 0; i < (int)glyph_count && i < length; i++) {
+        codepoints[start + i] = info[i].codepoint;
+    }
 
 	/* Cleanup. */
 	hb_buffer_destroy(buffer);
