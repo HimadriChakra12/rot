@@ -9,10 +9,10 @@
 2. THE FEAT
 -----------
 vim-browse 
-scroll 
+scrollback
 newterm 
 kitty-graphics
-ligatures 
+^ ligatures 
 
 3. THE LOOKS
 -----------
